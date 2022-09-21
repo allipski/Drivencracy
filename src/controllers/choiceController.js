@@ -1,10 +1,11 @@
 import db from '../database/db.js'
+import { ObjectId } from 'mongodb';
 
 async function postChoice(req, res) {
     const {title: title, pollId: pollId} = req.body
     try {
-        await db.collection('choice').insertOne({ title:title, pollId:pollId });
-        const choice = await db.collection('choice').findOne({ title:title, pollId:pollId });
+        await db.collection('choice').insertOne({ title:title, pollId: new ObjectId(pollId) });
+        const choice = await db.collection('choice').findOne({ title:title, pollId: new ObjectId(pollId) });
         return res.send(choice).status(201);
     } catch (error) {
         return res.status(500).send(error.message);
