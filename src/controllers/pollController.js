@@ -10,4 +10,13 @@ async function postPoll(req, res) {
     }
 }
 
-export { postPoll }
+async function fetchPolls(req, res) {
+    try {
+        const polls = await db.collection('poll').find().toArray();
+        return res.send(polls).status(200);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
+export { postPoll, fetchPolls };
